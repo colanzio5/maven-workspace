@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
  */
 public class ArrayPriorityQueueTest extends TestCase {
 
-    private static final int DEFAULT_TEST_SIZE = 2048;
+    private static final int DEFAULT_TEST_SIZE = 8048;
     private static final int DEFAULT_NUM_EPOCH = 4;
     private static final List<String> TEST_NAMES = generateTestValues
             (DEFAULT_TEST_SIZE << DEFAULT_NUM_EPOCH, new NameGenerator());

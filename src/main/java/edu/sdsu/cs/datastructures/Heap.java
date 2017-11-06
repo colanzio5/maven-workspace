@@ -19,6 +19,7 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
 
     final Comparator<E> comp;
     final List<E> storage;
+    private int size;
 
     /***
      * The collection constructor generates a new heap from the existing
@@ -28,6 +29,8 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     public Heap(Collection<? extends E> col) {
         this();
+        size = col.size();
+        
     }
 
     /***
@@ -114,6 +117,12 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     @Override
     public boolean offer(E e) {
+        storage.add(++size, e);
+        int temp = size;
+
+        while(storage.get(temp) < storage.get(parent(temp))){
+
+        }
         return false;
     }
 
@@ -137,4 +146,21 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
         return null;
     }
 
+    private int parent(int pos){
+        return pos / 2;
+    }
+
+    private int leftChild(int pos){
+        return (2 * pos);
+    }
+
+    private int rightChild(int pos){
+        return (2* pos) + 1;
+    }
+
+    private boolean isLeaf(int pos){
+        if((pos >= (size / 2)) && (pos <= size))
+            return true;
+        return false;
+    }
 }

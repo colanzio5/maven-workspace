@@ -1,0 +1,106 @@
+-------------------------------------------------------------------------------
+Test set: edu.sdsu.cs.datastructures.CirArrayListTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 12, Errors: 0, Skipped: 0, Time elapsed: 0.078 sec <<< FAILURE! - in edu.sdsu.cs.datastructures.CirArrayListTest
+test_clear_middleLeavingEnds_onlyValidItems(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: null
+	at junit.framework.Assert.fail(Assert.java:55)
+	at junit.framework.Assert.assertTrue(Assert.java:22)
+	at junit.framework.Assert.assertTrue(Assert.java:31)
+	at junit.framework.TestCase.assertTrue(TestCase.java:201)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_clear_middleLeavingEnds_onlyValidItems(CirArrayListTest.java:186)
+
+test_remove_oddValuesFromList_nonePresent(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0.062 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: null
+	at junit.framework.Assert.fail(Assert.java:55)
+	at junit.framework.Assert.assertTrue(Assert.java:22)
+	at junit.framework.Assert.assertTrue(Assert.java:31)
+	at junit.framework.TestCase.assertTrue(TestCase.java:201)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_remove_oddValuesFromList_nonePresent(CirArrayListTest.java:176)
+
+test_add_manySingleItems_correctContents(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0.009 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: expected:<33554433> but was:<1>
+	at junit.framework.Assert.fail(Assert.java:57)
+	at junit.framework.Assert.failNotEquals(Assert.java:329)
+	at junit.framework.Assert.assertEquals(Assert.java:78)
+	at junit.framework.Assert.assertEquals(Assert.java:234)
+	at junit.framework.Assert.assertEquals(Assert.java:241)
+	at junit.framework.TestCase.assertEquals(TestCase.java:409)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_add_manySingleItems_correctContents(CirArrayListTest.java:120)
+
+test_set_indexOutOfBounds_exceptionThrown(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: IndexOutOfBoundsException expected for index < 0
+	at junit.framework.Assert.fail(Assert.java:57)
+	at junit.framework.TestCase.fail(TestCase.java:227)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_set_indexOutOfBounds_exceptionThrown(CirArrayListTest.java:195)
+
+test_constructorCollection_initializedCorrectly(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: 
+Expected: is <2048>
+     but: was <0>
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.junit.Assert.assertThat(Assert.java:865)
+	at org.junit.Assert.assertThat(Assert.java:832)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_constructorCollection_initializedCorrectly(CirArrayListTest.java:57)
+
+test_remove_allContents_correctRemovedElementAndSize(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: 
+Expected: is <0>
+     but: was null
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.junit.Assert.assertThat(Assert.java:865)
+	at org.junit.Assert.assertThat(Assert.java:832)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_remove_allContents_correctRemovedElementAndSize(CirArrayListTest.java:144)
+
+test_set_sequentialValues_contentsCorrect(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: expected:<0> but was:<2048>
+	at junit.framework.Assert.fail(Assert.java:57)
+	at junit.framework.Assert.failNotEquals(Assert.java:329)
+	at junit.framework.Assert.assertEquals(Assert.java:78)
+	at junit.framework.Assert.assertEquals(Assert.java:234)
+	at junit.framework.Assert.assertEquals(Assert.java:241)
+	at junit.framework.TestCase.assertEquals(TestCase.java:409)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_set_sequentialValues_contentsCorrect(CirArrayListTest.java:156)
+
+test_add_startEmptyFrontPosition_contentsCorrect(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: 
+Expected: is <2047>
+     but: was null
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.junit.Assert.assertThat(Assert.java:865)
+	at org.junit.Assert.assertThat(Assert.java:832)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_add_startEmptyFrontPosition_contentsCorrect(CirArrayListTest.java:90)
+
+test_remove_addTwoBackRemoveOneFront_contentsCorrect(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: 
+Expected: is <2048>
+     but: was <4096>
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.junit.Assert.assertThat(Assert.java:865)
+	at org.junit.Assert.assertThat(Assert.java:832)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_remove_addTwoBackRemoveOneFront_contentsCorrect(CirArrayListTest.java:133)
+
+test_get_indexOutOfBounds_exceptionThrown(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: IndexOutOfBoundsException expected for < 0
+	at junit.framework.Assert.fail(Assert.java:57)
+	at junit.framework.TestCase.fail(TestCase.java:227)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_get_indexOutOfBounds_exceptionThrown(CirArrayListTest.java:226)
+
+test_add_existingCollectionFrontPosition_contentsCorrect(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: 
+Expected: is <4096>
+     but: was <2048>
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.junit.Assert.assertThat(Assert.java:865)
+	at org.junit.Assert.assertThat(Assert.java:832)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_add_existingCollectionFrontPosition_contentsCorrect(CirArrayListTest.java:101)
+
+test_add_startEmptyEndPosition_contentsCorrect(edu.sdsu.cs.datastructures.CirArrayListTest)  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.AssertionError: 
+Expected: is <0>
+     but: was null
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.junit.Assert.assertThat(Assert.java:865)
+	at org.junit.Assert.assertThat(Assert.java:832)
+	at edu.sdsu.cs.datastructures.CirArrayListTest.test_add_startEmptyEndPosition_contentsCorrect(CirArrayListTest.java:77)
+

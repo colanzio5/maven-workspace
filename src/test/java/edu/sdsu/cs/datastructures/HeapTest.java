@@ -64,9 +64,9 @@ public class HeapTest extends TestCase {
         System.out.println("CUSTOM TEST RUNNING");
         // add everything to the heap through the collection constructor
         sut = new Heap<>(testValues);
-        sut.displayHeap();
-        sut.poll();
-        sut.displayHeap();
+        //sut.displayHeap();
+        //sut.poll();
+        //sut.displayHeap();
         //assertTrue(sut.containsAll(testValues));
         //assertThat(sut.size(), is(equalTo(DEFAULT_TEST_SIZE)));
         //failIfPollOutOfOrder(DEFAULT_TEST_SIZE);

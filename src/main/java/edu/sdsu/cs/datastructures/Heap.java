@@ -119,10 +119,6 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
     public boolean offer(E e) {
         storage.add(++size, e);
         int temp = size;
-
-        while(storage.get(temp) < storage.get(parent(temp))){
-
-        }
         return false;
     }
 

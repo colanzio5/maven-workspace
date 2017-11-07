@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.ws.Dispatch;
+
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -15,7 +17,7 @@ import static org.junit.Assert.assertThat;
  */
 public class HeapTest extends TestCase {
 
-    private static final int DEFAULT_TEST_SIZE = 64;
+    private static final int DEFAULT_TEST_SIZE = 16;
     private static final int VALUE_TARGET = 310;
     private static final int VALUE_NOT_TARGET = 620;
 
@@ -25,52 +27,75 @@ public class HeapTest extends TestCase {
         sut = new Heap<>();
     }
 
-    public void test_defaultConstructor_naturalOrder() {
+    // public void test_defaultConstructor_naturalOrder() {
 
-        List<Integer> testValues = getInverseValueList(DEFAULT_TEST_SIZE);
+    //     List<Integer> testValues = getInverseValueList(DEFAULT_TEST_SIZE);
 
-        //setup the test by adding several values in inverse
-        for (Integer value : testValues) {
-            sut.offer(value);
-        }
-        //sut.displayHeap();
-        // assertTrue(sut.containsAll(testValues));
-        // failIfPollOutOfOrder(DEFAULT_TEST_SIZE);
-        // assertTrue(sut.isEmpty());
-    }
+    //     //setup the test by adding several values in inverse
+    //     for (Integer value : testValues) {
+    //         sut.offer(value);
+    //         System.out.print(value + " ");
+    //     }
+    //     sut.displayHeap();
+    //     //assertTrue(sut.containsAll(testValues));
+    //     failIfPollOutOfOrder(DEFAULT_TEST_SIZE);
+    //     // assertTrue(sut.isEmpty());
+    // }
 
     private static final List<Integer> getInverseValueList(int size) {
         List<Integer> values = new LinkedList<>();
         for (int i = size; i > 0; i--) {
             values.add(values.size(), i);
         }
+        
         return values;
     }
 
-    // private void failIfPollOutOfOrder(int testSize) {
-    //     // remove everything from the list and verify it arrives in order
-    //     Integer previous = 0;
-    //     for (int i = 0; i < testSize; i++) {
-    //         Integer current = sut.poll();
-    //         assertTrue(previous < current);
-    //         previous = current;
-    //     }
-
-    // }
+    private void failIfPollOutOfOrder(int testSize) {
+        // remove everything from the list and verify it arrives in order
+        Integer previous = 0;
+        for (int i = 0; i < testSize; i++) {
+            Integer current = sut.poll();
+            sut.displayHeap();
+            assertTrue(previous <= current);
+            previous = current;
+        }
+    }
 
     public void test_collectionConstructor_naturalOrder() {
 
         List<Integer> testValues = getInverseValueList(DEFAULT_TEST_SIZE);
-        System.out.println("CUSTOM TEST RUNNING");
+        
         // add everything to the heap through the collection constructor
         sut = new Heap<>(testValues);
-        //sut.displayHeap();
-        //sut.poll();
-        //sut.displayHeap();
-        //assertTrue(sut.containsAll(testValues));
-        //assertThat(sut.size(), is(equalTo(DEFAULT_TEST_SIZE)));
-        //failIfPollOutOfOrder(DEFAULT_TEST_SIZE);
-        //assertTrue(sut.isEmpty());
+        for (Integer var : testValues) {
+            System.out.print("var: " + var + " ");
+        }
+        sut.displayHeap();
+        // sut.offer(1);
+        sut.offer(50);
+        sut.displayHeap();
+        sut.poll();
+        sut.displayHeap();
+        sut.poll();
+        sut.displayHeap();
+        sut.poll();
+        sut.displayHeap();
+        sut.poll();
+        sut.displayHeap();
+        // sut.offer(2);
+        // sut.displayHeap();
+        // sut.offer(3);
+        // sut.displayHeap();
+        
+        // sut.offer(19);
+        sut.displayHeap();
+        System.out.println(sut.size() + " " + testValues.size());
+
+        // assertTrue(sut.containsAll(testValues));
+        // assertThat(sut.size(), is(equalTo(DEFAULT_TEST_SIZE)));
+        // failIfPollOutOfOrder(DEFAULT_TEST_SIZE);
+        // assertTrue(sut.isEmpty());
     }
 
     // public void test_comparatorConstructor_newOrder() {

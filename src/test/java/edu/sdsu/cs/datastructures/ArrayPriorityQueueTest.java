@@ -87,19 +87,13 @@ public class ArrayPriorityQueueTest extends TestCase {
         // build data
         final List<Integer> values = getSymmetricIntegers();
         // add it to the queue
-        for (Integer e : values) {
-            System.out.println("Item : " + e);
-        }
-        System.out.print("-------------\n");
+
         final Queue<Integer> priorityQueue = new ArrayPriorityQueue<>(values);
         // verify lowest items appear first
-        for (Integer e : priorityQueue) {
-            System.out.println("Item : " + e);
-        }
+        
         Integer previous = 0;
         for (int i = 0; i < DEFAULT_TEST_SIZE; i++) {
             final Integer current = priorityQueue.poll();
-            System.out.println("current: " + current + " previous: "+ previous);
             assertTrue(current > previous);
             previous = current;
         }

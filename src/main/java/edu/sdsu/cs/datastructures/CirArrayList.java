@@ -69,7 +69,7 @@ public final class CirArrayList<E> extends AbstractList<E> implements List<E>, R
     @Override
     public E set(int index, E value) {
         E e = null;
-        if ((index < 0) || (index >= number_items))
+        if ((index < 0) || (index >= size()))
             throw new IndexOutOfBoundsException();
         else {
             e = storage[((tail + index) % storage.length)];
@@ -86,8 +86,10 @@ public final class CirArrayList<E> extends AbstractList<E> implements List<E>, R
      */
     @Override
     public void add(int index, E value) {
-        if ((index < 0) || (index > number_items))
-            throw new IndexOutOfBoundsException("REMOVE_INVALID_INDEX: " + index);
+        if ((index < 0) || (index > number_items)){
+            increaseBufferSize();
+            this.add(index, value);
+        }
         if ((head + 1) % storage.length == tail) {
             increaseBufferSize();
             this.add(index, value);

@@ -2,13 +2,11 @@ package edu.sdsu.cs.datastructures;
 
 import edu.sdsu.cs.datastructures.CirArrayList;
 import java.util.AbstractQueue;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 /**
@@ -16,7 +14,7 @@ import java.util.Queue;
  * <p>An efficient, array-based priority queue data structure.
  * </p>
  *
- * @author STUDENT NAME HERE, csscXXXX
+ * @author colin Casazza, CSSC0236
  */
 
 public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
@@ -58,6 +56,9 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     public Heap(Collection<? extends E> col, Comparator<E> orderToUse) {
         this(orderToUse);
+        for (E e : col) {
+            offer(e);
+        }
         items = col.size();
     }
 
@@ -71,6 +72,7 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
     public Heap(Comparator<E> orderToUse) {
         comp = orderToUse;
         storage = new CirArrayList<>();
+        items = 0;
     }
 
     /***
@@ -79,6 +81,11 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      * @param data a list of data to sort
      */
     public static <T> void sort(List<T> data) {
+        Heap<T> temp = new Heap<>();
+        for (T e : data)
+            temp.offer(e);
+        for (int i = 0; i < data.size(); i++)
+            data.set(i, (T) temp.poll());
     }
 
     /***
@@ -88,6 +95,11 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      * @param order the comparator object expressing the desired order
      */
     public static <T> void sort(List<T> data, Comparator<T> order) {
+        Heap<T> temp = new Heap<>(order);
+        for (T e : data)
+            temp.offer(e);
+        for (int i = 0; i < data.size(); i++)
+            data.set(i, (T) temp.poll());
     }
 
     /**
@@ -99,7 +111,7 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return (Iterator<E>) new HeapIterator();
     }
 
     /***
@@ -122,56 +134,30 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     @Override
     public boolean offer(E e) {
-        Node node = new Node(e);
-        if (items == 0) {
-            // System.out.println(" OFFER -- SIZE: " + size() + " DATA: " + node.getData() + " ");
-            // displayHeap();
-            storage.add(0, node);
-            items++;
-            return true;
-        }
-        System.out.println(" OFFER -- SIZE: " + size() + " DATA: " + node.getData() + " ");
-        displayHeap();
+        Node<E> node = (Node<E>) new Node(e);
         storage.add(items, node);
         trickleUp(items++);
-
         return true;
     }
-
     public void trickleUp(int index) {
         int parentindex = (index - 1) / 2;
-        Node parent = storage.get(parentindex);
-        Node current = storage.get(index);
-
-        while ((compare(parentindex, index) < 0) && index > 0) {
-            if( ((Comparable<E>) storage.get(parentindex).getData()).compareTo(storage.get(index).getData()) == 0) {
+        Node<E> parent = storage.get(parentindex);
+        Node<E> current = storage.get(index);
+        Node<E> bottom = current;
+        while (index > 0 && (compare(parentindex, index) < 0)) {
+            if (compare(parentindex, index) == 0) {
                 storage.get(index).increasePriority();
                 break;
             } else {
                 current = storage.get(index);
                 parent = storage.get(parentindex);
-    
-                // System.out.println("trickle: index- " + index +  " data: " + storage.get(index).getData() + " parent-" + parentindex +  " Parent data: " + storage.get(parentindex).getData() + " size- " + items);
-                // System.out.println("swapping");
-                // displayHeap();
                 storage.set(parentindex, current);
                 storage.set(index, parent);
                 index = parentindex;
                 parentindex = (index - 1) / 2;
             }
+            storage.set(index, bottom);
         }
-    }
-
-    private int compare(int i1, int i2) {
-        return ((Comparable<E>) storage.get(i1).getData()).compareTo(storage.get(i2).getData());
-    }
-
-    private boolean hasParent(int i) {
-        return i > 1;
-    }
-
-    private int parentIndex(int i) {
-        return i / 2;
     }
 
     /***
@@ -181,37 +167,40 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     @Override
     public E poll() {
-        System.out.print("POLL: " + items + " DATA: " + storage.get(0).getData());
-        displayHeap();
-        Node root = storage.get(0);
-        storage.set(0, storage.get(--items));
-        trickleDown(0);
-        return (E) root.getData();
+        E ret = null;
+        if (items == 0)
+            return null;
+        else {
+            ret = storage.get(0).getData();
+            storage.set(0, storage.get(--items));
+            storage.set(items, null);
+            if (items > 0)
+                trickleDown(0);
+            return (E) ret;
+        }
     }
-
     public void trickleDown(int index) {
         int largerChild;
-        Node top = storage.get(index); // save root
-        while (index < items / 2) // while node has at
-        { //    least one child,
-            Node temp = storage.get(index);
-            System.out.println("trickledown: index- " + index +  " data: " + storage.get(index).getData() + " child-" + (2 * index + 1) +  " Child data: " + storage.get(2 * index + 1).getData() + " size- " + items);
-            displayHeap();
+        while (index < (items) / 2) {
+            Node<E> temp = storage.get(index);
             int leftChild = 2 * index + 1;
             int rightChild = leftChild + 1;
-            if (rightChild < items && (compare(leftChild, rightChild) < 0)){
-                largerChild = rightChild;
-            } else {
-                largerChild = leftChild;
-            }
-            if (compare(index, largerChild) >= 0) {
+            if (rightChild + 1 > items)
                 break;
+            if (rightChild < items && (compare(leftChild, rightChild) > 0))
+                largerChild = leftChild;
+            else
+                largerChild = rightChild;
+            try {
+                if (compare(index, largerChild) == 0)
+                    break;
+            } catch (Exception e) {
+                throw new IndexOutOfBoundsException();
             }
             storage.set(index, storage.get(largerChild));
             storage.set(largerChild, temp);
             index = largerChild;
         }
-        storage.set(index, top);
     }
 
     /***
@@ -221,50 +210,46 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     @Override
     public E peek() {
-        return null;
+        if (items == 0)
+            return null;
+        return (E) storage.get(0).getData();
     }
 
-    public void displayHeap() {
-        for (Node var : storage) {
-            System.out.print(var.getData() + " ");
-        } // array format
-        // for(int m=0; m<size(); m++)
-        //    if(storage.get(m) != null)
-        //       System.out.print( storage.get(m).getData() + " ");
-        //    else
-        //       System.out.print( "-- ");
-        System.out.println();
-        // heap format
-        int nBlanks = 32;
-        int itemsPerRow = 1;
-        int column = 0;
-        int j = 0; // current item
-        String dots = "...............................";
-        System.out.println(dots + dots); // dotted top line
+    //PRIVATE CLASSES
+    private int compare(int i1, int i2) {
+        try {
+            Comparable<E> e1 = ((Comparable<E>) storage.get(i2).getData());
+            Comparable<E> e2 = ((Comparable<E>) storage.get(i1).getData());
+            return comp.compare((E) (Comparable<E>) storage.get(i2).getData(),
+                    (E) (Comparable<E>) storage.get(i1).getData());
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    private class HeapIterator<E> implements Iterator<E> {
+        private int cursor;
 
-        while (size() > 0) // for each heap item
-        {
-            if (column == 0) // first item in row?
-                for (int k = 0; k < nBlanks; k++) // preceding blanks
-                    System.out.print(' ');
-            // display item
-            System.out.print(storage.get(j).getData() + "[" + j + "] ");
+        public HeapIterator() {
+            this.cursor = 0;
+        }
 
-            if (++j == size()) // done?
-                break;
+        public boolean hasNext() {
+            return this.cursor < items;
+        }
 
-            if (++column == itemsPerRow) // end of row?
-            {
-                nBlanks /= 2; // half the blanks
-                itemsPerRow *= 2; // twice the items
-                column = 0; // start over on
-                System.out.println(); //    new row
-            } else // next item on row
-                for (int k = 0; k < nBlanks * 2 - 2; k++)
-                    System.out.print(' '); // interim blanks
-        } // end for
-        System.out.println("\n" + dots + dots); // dotted bottom line
-    } // end displayHeap()
+        public E next() {
+            if (this.hasNext()) {
+                int current = cursor;
+                cursor++;
+                return (E) storage.get(current).getData();
+            }
+            throw new NoSuchElementException();
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
 }
 
 class Node<E> {

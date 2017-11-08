@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="edu.sdsu.cs.datastructures.HeapTest" time="0.251" errors="0" skipped="0">
+<testsuite tests="9" failures="0" name="edu.sdsu.cs.datastructures.HeapTest" time="0.004" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_144\jre\bin"/>
@@ -65,5 +65,13 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_collectionConstructor_naturalOrder" time="0.251"/>
+  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_sort_natural" time="0.002"/>
+  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_sort_comparator" time="0"/>
+  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_peek" time="0"/>
+  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_poll" time="0"/>
+  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_collectionConstructor_naturalOrder" time="0.001"/>
+  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_defaultConstructor_naturalOrder" time="0"/>
+  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_comparatorCollectionConstructor_newOrder" time="0"/>
+  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_comparatorConstructor_newOrder" time="0.001"/>
+  <testcase classname="edu.sdsu.cs.datastructures.HeapTest" name="test_offer" time="0"/>
 </testsuite>

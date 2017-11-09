@@ -28,14 +28,11 @@ public class HeapTest extends TestCase {
     }
 
     public void test_defaultConstructor_naturalOrder() {
-
         List<Integer> testValues = getInverseValueList(DEFAULT_TEST_SIZE);
-
         //setup the test by adding several values in inverse
         for (Integer value : testValues) {
             sut.offer(value);
-        }
-        
+        }        
         assertTrue(sut.containsAll(testValues));
         failIfPollOutOfOrder(DEFAULT_TEST_SIZE);
         assertTrue(sut.isEmpty());
@@ -46,7 +43,6 @@ public class HeapTest extends TestCase {
         for (int i = size; i > 0; i--) {
             values.add(values.size(), i);
         }
-        
         return values;
     }
 
@@ -55,7 +51,6 @@ public class HeapTest extends TestCase {
         Integer previous = 0;
         for (int i = 0; i < testSize; i++) {
             Integer current = sut.poll();
-
             assertTrue(previous <= current);
             previous = current;
         }
@@ -64,10 +59,8 @@ public class HeapTest extends TestCase {
     public void test_collectionConstructor_naturalOrder() {
 
         List<Integer> testValues = getInverseValueList(DEFAULT_TEST_SIZE);
-        
         // add everything to the heap through the collection constructor
         sut = new Heap<>(testValues);
-
         assertTrue(sut.containsAll(testValues));
         assertThat(sut.size(), is(equalTo(DEFAULT_TEST_SIZE)));
         failIfPollOutOfOrder(DEFAULT_TEST_SIZE);
@@ -77,7 +70,6 @@ public class HeapTest extends TestCase {
     public void test_comparatorConstructor_newOrder() {
 
         List<Integer> testValues = getInOrderValueList(DEFAULT_TEST_SIZE);
-
         sut = new Heap<Integer>(Comparator.reverseOrder());
         // setup the test by adding several values in order
         for (int i = 0; i < DEFAULT_TEST_SIZE; i++)

@@ -16,13 +16,12 @@ import java.util.Queue;
  *
  * @author colin Casazza, CSSC0236
  */
-
 public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
-
     final Comparator<E> comp;
-    final CirArrayList<Node<E>> storage;
+    final CirArrayList<Element<E>> storage;
     private int items = 0;
 
+    //CONSTRUCTORS
     /***
      * The collection constructor generates a new heap from the existing
      * collection using the enclosed item's natural ordering. Thus, these
@@ -31,9 +30,8 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     public Heap(Collection<? extends E> col) {
         this();
-        for (E e : col) {
+        for (E e : col)
             offer(e);
-        }
     }
 
     /***
@@ -43,7 +41,7 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     public Heap() {
         comp = (Comparator<E>) Comparator.naturalOrder();
-        storage = new CirArrayList<Node<E>>();
+        storage = new CirArrayList<Element<E>>();
         items = 0;
     }
 
@@ -56,9 +54,8 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     public Heap(Collection<? extends E> col, Comparator<E> orderToUse) {
         this(orderToUse);
-        for (E e : col) {
+        for (E e : col)
             offer(e);
-        }
         items = col.size();
     }
 
@@ -75,6 +72,7 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
         items = 0;
     }
 
+    //PUBLIC METHODS
     /***
      * An IN-PLACE sort function using heapsort.
      *
@@ -134,30 +132,10 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
      */
     @Override
     public boolean offer(E e) {
-        Node<E> node = (Node<E>) new Node(e);
-        storage.add(items, node);
+        Element<E> el = (Element<E>) new Element(e);
+        storage.add(items, el);
         trickleUp(items++);
         return true;
-    }
-    public void trickleUp(int index) {
-        int parentindex = (index - 1) / 2;
-        Node<E> parent = storage.get(parentindex);
-        Node<E> current = storage.get(index);
-        Node<E> bottom = current;
-        while (index > 0 && (compare(parentindex, index) < 0)) {
-            if (compare(parentindex, index) == 0) {
-                storage.get(index).increasePriority();
-                break;
-            } else {
-                current = storage.get(index);
-                parent = storage.get(parentindex);
-                storage.set(parentindex, current);
-                storage.set(index, parent);
-                index = parentindex;
-                parentindex = (index - 1) / 2;
-            }
-            storage.set(index, bottom);
-        }
     }
 
     /***
@@ -179,35 +157,12 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
             return (E) ret;
         }
     }
-    public void trickleDown(int index) {
-        int largerChild;
-        while (index < (items) / 2) {
-            Node<E> temp = storage.get(index);
-            int leftChild = 2 * index + 1;
-            int rightChild = leftChild + 1;
-            if (rightChild + 1 > items)
-                break;
-            if (rightChild < items && (compare(leftChild, rightChild) > 0))
-                largerChild = leftChild;
-            else
-                largerChild = rightChild;
-            try {
-                if (compare(index, largerChild) == 0)
-                    break;
-            } catch (Exception e) {
-                throw new IndexOutOfBoundsException();
-            }
-            storage.set(index, storage.get(largerChild));
-            storage.set(largerChild, temp);
-            index = largerChild;
-        }
-    }
 
     /***
-     * Retrieves, but does not remove, the head of this queue, or returns
-     * null if this queue is empty.
-     * @return the head of this queue, or null if this queue is empty
-     */
+    * Retrieves, but does not remove, the head of this queue, or returns
+    * null if this queue is empty.
+    * @return the head of this queue, or null if this queue is empty
+    */
     @Override
     public E peek() {
         if (items == 0)
@@ -215,17 +170,108 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
         return (E) storage.get(0).getData();
     }
 
-    //PRIVATE CLASSES
+    private void trickleUp(int index) {
+        int parentindex = (index - 1) / 2;
+        Element<E> parent = storage.get(parentindex);
+        Element<E> current = storage.get(index);
+        Element<E> last = current;
+        while (index > 0 && (compare(parentindex, index) < 0)) {
+            if (compare(parentindex, index) == 0)
+                break;
+            else {
+                current = storage.get(index);
+                parent = storage.get(parentindex);
+                storage.set(parentindex, current);
+                storage.set(index, parent);
+                index = parentindex;
+                parentindex = (index - 1) / 2;
+            }
+            storage.set(index, last);
+        }
+    }
+
+    public void trickleDown(int index) {
+        int largest;
+        while (index < (items) / 2) {
+            Element<E> temp = storage.get(index);
+            int left = 2 * index + 1;
+            int rightChild = left + 1;
+            if (rightChild + 1 > items)
+                break;
+            if (rightChild < items && (compare(left, rightChild) > 0))
+                largest = left;
+            else
+                largest = rightChild;
+            try {
+                if (compare(index, largest) == 0)
+                    break;
+            } catch (Exception e) {
+                throw new IndexOutOfBoundsException();
+            }
+            storage.set(index, storage.get(largest));
+            storage.set(largest, temp);
+            index = largest;
+        }
+    }
+
+    //PRIVATE METHODS
     private int compare(int i1, int i2) {
+        int ret = 0;
         try {
             Comparable<E> e1 = ((Comparable<E>) storage.get(i2).getData());
             Comparable<E> e2 = ((Comparable<E>) storage.get(i1).getData());
-            return comp.compare((E) (Comparable<E>) storage.get(i2).getData(),
+            ret = comp.compare((E) (Comparable<E>) storage.get(i2).getData(),
                     (E) (Comparable<E>) storage.get(i1).getData());
+            if (ret == 0) {
+                ret = storage.get(i2).getPriority() - storage.get(i1).getPriority();
+                storage.get(i2).setPriority(storage.get(i1).getPriority() + 2);
+            }
         } catch (Exception e) {
-            return 0;
+            return ret;
         }
+        return ret;
     }
+
+    /**
+    UTILITY FUNCTION 
+        - TAKEN FROM http://homepage.divms.uiowa.edu/~sriram/21/spring07/code/heap.java
+        - was modified to fit case needs.
+        - displays heap in binary tree with index and priority
+        - pure - can keep public??
+    */
+    public void displayHeap() {
+        for (Element<E> var : storage)
+            System.out.print(var.getData() + " ");
+        System.out.println();
+
+        int nBlanks = 64;
+        int itemsPerRow = 1;
+        int column = 0;
+        int j = 0;
+        String dots = "...............................";
+        System.out.println(dots + dots);
+        while (size() > 0) {
+            if (column == 0)
+                for (int k = 0; k < nBlanks; k++)
+                    System.out.print(' ');
+
+            System.out.print(" D: " + storage.get(j).getData() + " I: " + j + " P: " + storage.get(j).getPriority());
+            if (++j == size())
+                break;
+            if (++column == itemsPerRow) {
+                nBlanks /= 2;
+                itemsPerRow *= 2;
+                column = 0;
+                System.out.println();
+            } else
+                for (int k = 0; k < nBlanks * 2 - 2; k++)
+                    System.out.print(' ');
+        } // end for
+        System.out.println("\n" + dots + dots);
+    }
+
+    //INNER PRIVATE CLASSES
+    //Provides a Iterator for Keys in Heap Collection
     private class HeapIterator<E> implements Iterator<E> {
         private int cursor;
 
@@ -250,32 +296,19 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
             throw new UnsupportedOperationException();
         }
     }
-}
+} //END HEAP CLASS
 
-class Node<E> {
+//WRAPPER CLASS
+class Element<E> {
     private E value;
-    private int index;
-    private int priority;
+    private int priority = 0;
 
-    public Node(E data, int i) {
+    public Element(E data) {
         value = (E) data;
-        this.index = i;
-    }
-
-    public Node(E data) {
-        value = (E) data;
-    }
-
-    public int getIndex() {
-        return this.index;
     }
 
     public E getData() {
         return (E) this.value;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public void setData(E data) {
@@ -286,8 +319,8 @@ class Node<E> {
         return this.priority;
     }
 
-    public void setPriority(E data) {
-        this.value = data;
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public void increasePriority() {

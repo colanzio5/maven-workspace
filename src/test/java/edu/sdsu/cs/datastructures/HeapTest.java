@@ -29,6 +29,7 @@ public class HeapTest extends TestCase {
 
     public void test_defaultConstructor_naturalOrder() {
         List<Integer> testValues = getInverseValueList(DEFAULT_TEST_SIZE);
+  
         //setup the test by adding several values in inverse
         for (Integer value : testValues) {
             sut.offer(value);

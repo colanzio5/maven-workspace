@@ -215,6 +215,7 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
     }
 
     //PRIVATE METHODS
+    //int1 - parent, int2 - child
     private int compare(int i1, int i2) {
         int ret = 0;
         try {
@@ -224,12 +225,14 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
                     (E) (Comparable<E>) storage.get(i1).getData());
             if (ret == 0) {
                 ret = storage.get(i2).getPriority() - storage.get(i1).getPriority();
-                storage.get(i2).setPriority(storage.get(i1).getPriority() + 2);
+                if(ret == 0)
+                    System.out.println("INCREASING PRIORITY");
+                    storage.get(i1).setPriority(storage.get(i2).getPriority() + 1);
             }
         } catch (Exception e) {
             return ret;
-        }
-        return ret;
+        } 
+        return ret; 
     }
 
     /**
@@ -255,7 +258,7 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
                 for (int k = 0; k < nBlanks; k++)
                     System.out.print(' ');
 
-            System.out.print(" D: " + storage.get(j).getData() + " I: " + j + " P: " + storage.get(j).getPriority());
+            System.out.print(" D: " + storage.get(j).getData() + " P: " + storage.get(j).getPriority());
             if (++j == size())
                 break;
             if (++column == itemsPerRow) {

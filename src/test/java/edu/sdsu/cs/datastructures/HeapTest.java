@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
  */
 public class HeapTest extends TestCase {
 
-    private static final int DEFAULT_TEST_SIZE = 16;
+    private static final int DEFAULT_TEST_SIZE = 8;
     private static final int VALUE_TARGET = 310;
     private static final int VALUE_NOT_TARGET = 620;
 
@@ -33,7 +33,8 @@ public class HeapTest extends TestCase {
         //setup the test by adding several values in inverse
         for (Integer value : testValues) {
             sut.offer(value);
-        }        
+        }
+
         assertTrue(sut.containsAll(testValues));
         failIfPollOutOfOrder(DEFAULT_TEST_SIZE);
         assertTrue(sut.isEmpty());

@@ -176,8 +176,10 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
         Element<E> current = storage.get(index);
         Element<E> last = current;
         while (index > 0 && (compare(parentindex, index) < 0)) {
-            if (compare(parentindex, index) == 0)
+            if (compare(parentindex, index) == 0){
+                storage.get(parentindex).increasePriority();
                 break;
+            }
             else {
                 current = storage.get(index);
                 parent = storage.get(parentindex);
@@ -225,9 +227,7 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
                     (E) (Comparable<E>) storage.get(i1).getData());
             if (ret == 0) {
                 ret = storage.get(i2).getPriority() - storage.get(i1).getPriority();
-                if(ret == 0)
-                    System.out.println("INCREASING PRIORITY");
-                    storage.get(i1).setPriority(storage.get(i2).getPriority() + 1);
+                    
             }
         } catch (Exception e) {
             return ret;
@@ -243,11 +243,11 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
         - pure - can keep public??
     */
     public void displayHeap() {
-        for (Element<E> var : storage)
-            System.out.print(var.getData() + " ");
-        System.out.println();
 
-        int nBlanks = 64;
+        for (int i = 0; i< items; i++){
+            System.out.println("D: "  + storage.get(i).getData() + " P: " + storage.get(i).getPriority());
+        }
+        int nBlanks = 32;
         int itemsPerRow = 1;
         int column = 0;
         int j = 0;
@@ -258,7 +258,7 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
                 for (int k = 0; k < nBlanks; k++)
                     System.out.print(' ');
 
-            System.out.print(" D: " + storage.get(j).getData() + " P: " + storage.get(j).getPriority());
+            System.out.print(" {D: " + storage.get(j).getData() + " P: " + storage.get(j).getPriority()+"}");
             if (++j == size())
                 break;
             if (++column == itemsPerRow) {
@@ -271,6 +271,18 @@ public final class Heap<E> extends AbstractQueue<E> implements Queue<E> {
                     System.out.print(' ');
         } // end for
         System.out.println("\n" + dots + dots);
+    }
+
+    public void heapDisplay(){
+        Heap<E> temp = new Heap<>();
+        for (Element<E> e : storage) {
+            temp.offer(e.getData());
+        }
+
+        for(int i = 0; i< items; i++){
+            E e = temp.poll();
+            System.out.println(e.toString() + " ");
+        }
     }
 
     //INNER PRIVATE CLASSES
@@ -323,10 +335,10 @@ class Element<E> {
     }
 
     public void setPriority(int priority) {
-        this.priority = priority;
+        this.priority = priority + priority;
     }
 
     public void increasePriority() {
-        this.priority++;
+        this.priority = this.priority + 1;
     }
 }

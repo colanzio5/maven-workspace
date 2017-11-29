@@ -5,11 +5,11 @@ import edu.sdsu.cs.util.IValueGenerator;
 import edu.sdsu.cs.util.ListTimer;
 import edu.sdsu.cs.util.NameGenerator;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.io.*;
 
 /**
  * Assignment 2: Lists and inheritance
@@ -23,9 +23,19 @@ public class Assign4 {
 
     private static final String TIMING_CAL_FILE = "timing_cal.txt";
 
-    private Assign4() {
-        final IValueGenerator<String> values = new NameGenerator();
-        System.out.print("Assign4 - Private Class Ran");
+    private Assign4(InputStream in, OutputStream out) {
+        System.out.print("\nAssign4 - Private Class Starting\n");
+        try {
+            int size = in.available();
+            for(int i = 0; i < size; i++) {
+                System.out.print((char)in.read() + "  ");
+             }
+             in.close();
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+
+        System.out.print("\nAssign4 - Private Class Ended\n");
     }
 
     private static void writeFile(List<String> data, String filename) {
@@ -46,10 +56,26 @@ public class Assign4 {
      */
     public static void main(String[] args) {
 
+        String input_path = args[0];
+        String output_path = args[1];
+        File input_file = new File(input_path);
+        File output_file = new File(output_path);
+        System.out.println("\nIN PATH: " + input_path + "\nOUT PATH: " + output_path + "\n");
+
         try {
-            new Assign4();
+            InputStream in = new FileInputStream(input_file);
+            OutputStream out = new FileOutputStream(output_file);
+            try{
+                new Assign4(in,out);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("FILE ERROR: " + e + "\n---end error---\n");
         }
+
+
+        
     }
 }

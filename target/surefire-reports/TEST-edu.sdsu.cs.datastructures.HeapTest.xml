@@ -5,7 +5,7 @@
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_144\jre\bin"/>
     <property name="java.vm.version" value="25.144-b01"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="maven.multiModuleProjectDirectory" value="C:\Users\Colin\code\maven-workspace"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:/Users/Colin/code/maven-workspace"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=";"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -27,22 +27,22 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 7"/>
-    <property name="classworlds.conf" value="C:\Program Files\apache-maven-3.5.0\bin\..\bin\m2.conf"/>
+    <property name="classworlds.conf" value="C:/Program Files/apache-maven-3.5.0/bin/m2.conf"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_144\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Cmder\bin;C:\Program Files\Cmder\vendor\conemu-maximus5\ConEmu\Scripts;C:\Program Files\Cmder\vendor\conemu-maximus5;C:\Program Files\Cmder\vendor\conemu-maximus5\ConEmu;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Java\jdk1.8.0_144;C:\Program Files\PuTTY\;C:\Program Files\nodejs\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\Colin\AppData\Local\Programs\Python\Python36-32;C:\Users\Colin\.babun;C:\Users\Colin\AppData\Local\atom\bin;C:\Program Files\apache-maven-3.5.0\bin;C:\Program Files\Java\jdk1.8.0_144\bin;C:\Program Files (x86)\Heroku\bin;C:\Users\Colin\AppData\Roaming\npm;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\share\vim\vim74;C:\Program Files\Cmder\;."/>
-    <property name="maven.conf" value="C:\Program Files\apache-maven-3.5.0\bin\../conf"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_144\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Cmder\vendor\git-for-windows\mingw32\bin;C:\Program Files\Cmder\vendor\git-for-windows\usr\bin;C:\Users\Colin\code\bin;C:\Program Files\Cmder\bin;C:\Program Files\Cmder\vendor\conemu-maximus5\ConEmu\Scripts;C:\Program Files\Cmder\vendor\conemu-maximus5;C:\Program Files\Cmder\vendor\conemu-maximus5\ConEmu;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Java\jdk1.8.0_144;C:\Program Files\PuTTY;C:\Program Files\nodejs;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\Colin\AppData\Local\Programs\Python\Python36-32;C:\Users\Colin\.babun;C:\Users\Colin\AppData\Local\atom\bin;C:\Program Files\apache-maven-3.5.0\bin;C:\Program Files\Java\jdk1.8.0_144\bin;C:\Program Files (x86)\Heroku\bin;C:\Users\Colin\AppData\Roaming\npm;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\share\vim\vim74;C:\Program Files\Cmder;."/>
+    <property name="maven.conf" value="C:/Program Files/apache-maven-3.5.0/conf"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="os.version" value="6.1"/>
-    <property name="library.jansi.path" value="C:\Program Files\apache-maven-3.5.0\bin\..\lib\jansi-native\windows64"/>
+    <property name="library.jansi.path" value="C:\Program Files\apache-maven-3.5.0\lib\jansi-native\windows64"/>
     <property name="user.home" value="C:\Users\Colin"/>
     <property name="user.timezone" value="America/Los_Angeles"/>
     <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
     <property name="java.specification.version" value="1.8"/>
     <property name="file.encoding" value="Cp1252"/>
     <property name="user.name" value="Colin"/>
-    <property name="java.class.path" value="C:\Program Files\apache-maven-3.5.0\bin\..\boot\plexus-classworlds-2.5.2.jar"/>
+    <property name="java.class.path" value="C:/Program Files/apache-maven-3.5.0/boot/plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_144\jre"/>
@@ -56,7 +56,7 @@
     <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.8.0_144\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_144\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_144\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_144\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_144\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_144\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_144\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_144\jre\classes"/>
     <property name="sun.stderr.encoding" value="cp437"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="C:\Program Files\apache-maven-3.5.0\bin\.."/>
+    <property name="maven.home" value="C:\Program Files\apache-maven-3.5.0"/>
     <property name="file.separator" value="\"/>
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="sun.cpu.endian" value="little"/>

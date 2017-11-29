@@ -1,9 +1,25 @@
 package edu.sdsu.cs.datastructures;
+
 import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 import javax.net.ssl.ExtendedSSLSession;
 import javax.sound.midi.MidiChannel;
 
-public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
+public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V> {
+    
+    private HashMap<K,V> storage;
+
+
+    public HashTable(){
+        storage = new HashMap<>();
+    }
+
+    public HashTable(MapADT inputData){
+
+    }
+
+
     /**
     * Returns true if the map has an object for the corresponding key.
     * @param key object to search for
@@ -11,7 +27,11 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
     */
     @Override
     public boolean contains(K key){
-        return false;
+        try {
+            return storage.containsKey(key);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -23,7 +43,11 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
 
     @Override
     public V add(K key, V value){
-        return null;
+        try {
+            return storage.put(key, value);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -33,7 +57,14 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
     */
     @Override
     public boolean delete(K key){
-        return false;
+        try {
+            V ret = storage.remove(key);
+            if(ret == null)
+                return false;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -43,7 +74,11 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
     */
     @Override
     public V getValue(K key){
-        return null;
+        try {
+            return storage.get(key);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -53,6 +88,10 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
     */
     @Override
     public K getKey(V value){
+        for (Map.Entry<K, V> e : storage.entrySet()) {
+            if(value.equals(e.getValue()))
+                return e.getKey();
+        }
         return null;
     }
 
@@ -62,7 +101,7 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
     */
     @Override
     public int size(){
-        return 0;
+        return storage.size();
     }
 
     /**
@@ -71,7 +110,7 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
     */
     @Override
     public boolean isEmpty(){
-        return false;
+        return storage.isEmpty();
     }
 
     /**
@@ -79,6 +118,7 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
     */
     @Override
     public void clear(){
+        storage.clear();
     }
 
     /**
@@ -87,7 +127,7 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
     */
     @Override
     public Iterator<K> keys(){
-        return null;
+        return (Iterator<K>) storage.entrySet().iterator();
     }
 
     /**
@@ -97,6 +137,6 @@ public final class Hash<K extends Comparable<K>, V> implements MapADT<K, V> {
     */
     @Override
     public Iterator<V> values(){
-        return null;
+        return (Iterator<V>) storage.keySet().iterator();
     }
 }

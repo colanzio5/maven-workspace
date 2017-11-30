@@ -19,6 +19,11 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
 
     }
 
+    public void show(){
+        for (Map.Entry<K, V> e : storage.entrySet()) {
+            System.out.print("\nK: " + e.getKey() + " V: " + e.getValue() );
+        }
+    }
 
     /**
     * Returns true if the map has an object for the corresponding key.
@@ -127,7 +132,7 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
     */
     @Override
     public Iterator<K> keys(){
-        return (Iterator<K>) storage.entrySet().iterator();
+        return null;
     }
 
     /**
@@ -137,6 +142,6 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
     */
     @Override
     public Iterator<V> values(){
-        return (Iterator<V>) storage.keySet().iterator();
+        return null;
     }
 }

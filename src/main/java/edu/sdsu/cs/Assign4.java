@@ -1,5 +1,6 @@
 package edu.sdsu.cs;
 
+import edu.sdsu.cs.datastructures.HashTable;
 import edu.sdsu.cs.datastructures.Heap;
 import edu.sdsu.cs.util.IValueGenerator;
 import edu.sdsu.cs.util.ListTimer;
@@ -23,16 +24,40 @@ public class Assign4 {
 
     private static final String TIMING_CAL_FILE = "timing_cal.txt";
 
-    private Assign4(InputStream in, OutputStream out) {
+    private Assign4(InputStream in, OutputStream out, int gram_size) {
         System.out.print("\nAssign4 - Private Class Starting\n");
+        HashTable<String, Integer> ntable = new HashTable<>();
+        int n_size = gram_size;
+        String gram = "";
+
         try {
             int size = in.available();
-            for(int i = 0; i < size; i++) {
-                System.out.print((char)in.read() + "  ");
+            System.out.print("SIZE: " + size + "\n");
+            for(int i = n_size - 1; i < size; i++) {
+                char c = (char) in.read();
+                if(gram.length() >= 3){
+                    gram = gram.substring(1) + c;
+                } else {
+                    gram = gram + c;
+                }
+                System.out.println("GRAM: " + gram + "\n");
+                if(gram.contains(" ")){
+                    System.out.println("Invalid: " + gram);
+                } else {
+                    System.out.println("Valid: " + gram);
+                    if(!ntable.contains(gram)){
+                        //add key, v = 1
+                        ntable.add(gram, 1);
+                    } else {
+                        ntable.add(gram, ntable.getValue(gram)+1 );
+                    }
+                }
+
              }
              in.close();
+             ntable.show();
         } catch (Exception e) {
-            //TODO: handle exception
+            System.out.println(e);
         }
 
         System.out.print("\nAssign4 - Private Class Ended\n");
@@ -58,6 +83,7 @@ public class Assign4 {
 
         String input_path = args[0];
         String output_path = args[1];
+        int in_num = Integer.parseInt(args[2]);
         File input_file = new File(input_path);
         File output_file = new File(output_path);
         System.out.println("\nIN PATH: " + input_path + "\nOUT PATH: " + output_path + "\n");
@@ -66,7 +92,7 @@ public class Assign4 {
             InputStream in = new FileInputStream(input_file);
             OutputStream out = new FileOutputStream(output_file);
             try{
-                new Assign4(in,out);
+                new Assign4(in,out, in_num);
 
             } catch (Exception e) {
                 e.printStackTrace();

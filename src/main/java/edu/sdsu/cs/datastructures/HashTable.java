@@ -2,17 +2,18 @@ package edu.sdsu.cs.datastructures;
 
 import java.util.Iterator;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 import javax.net.ssl.ExtendedSSLSession;
 import javax.sound.midi.MidiChannel;
 
 public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V> {
     
-    private HashMap<K,V> storage;
+    private TreeMap<K,V> storage;
 
 
     public HashTable(){
-        storage = new HashMap<>();
+        storage = new TreeMap<>();
     }
 
     public HashTable(MapADT inputData){
@@ -21,7 +22,7 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
 
     public void show(){
         for (Map.Entry<K, V> e : storage.entrySet()) {
-            System.out.print("\nK: " + e.getKey() + " V: " + e.getValue() );
+            System.out.print("\nK: " + e.getKey() + " V: " + e.getValue());
         }
     }
 
@@ -132,7 +133,7 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
     */
     @Override
     public Iterator<K> keys(){
-        return null;
+        return storage.keySet().iterator();
     }
 
     /**
@@ -142,6 +143,6 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
     */
     @Override
     public Iterator<V> values(){
-        return null;
+        return (Iterator<V>) storage.entrySet().iterator();
     }
 }

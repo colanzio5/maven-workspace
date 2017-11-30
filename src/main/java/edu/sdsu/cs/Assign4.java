@@ -5,6 +5,11 @@ import edu.sdsu.cs.datastructures.Heap;
 import edu.sdsu.cs.util.IValueGenerator;
 import edu.sdsu.cs.util.ListTimer;
 import edu.sdsu.cs.util.NameGenerator;
+import java.util.SortedSet;
+
+import javax.print.DocFlavor.BYTE_ARRAY;
+
+import java.util.*;
 
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -33,29 +38,37 @@ public class Assign4 {
         try {
             int size = in.available();
             System.out.print("SIZE: " + size + "\n");
-            for(int i = n_size - 1; i < size; i++) {
+            for (int i = n_size - 1; i < size; i++) {
                 char c = (char) in.read();
-                if(gram.length() >= 3){
+                if (gram.length() >= gram_size) {
                     gram = gram.substring(1) + c;
                 } else {
                     gram = gram + c;
                 }
-                System.out.println("GRAM: " + gram + "\n");
-                if(gram.contains(" ")){
-                    System.out.println("Invalid: " + gram);
+                //System.out.println("GRAM: " + gram + "\n");
+                if( gram.matches("^.*[^a-zA-Z0-9].*$") || gram.contains("\n") || gram.contains("\r")) {
+                    //System.out.println("Invalid: " + gram);
                 } else {
-                    System.out.println("Valid: " + gram);
-                    if(!ntable.contains(gram)){
+                    //System.out.println("Valid: " + gram);
+                    if (!ntable.contains(gram)) {
                         //add key, v = 1
                         ntable.add(gram, 1);
                     } else {
-                        ntable.add(gram, ntable.getValue(gram)+1 );
+                        ntable.add(gram, ntable.getValue(gram) + 1);
                     }
                 }
 
-             }
-             in.close();
-             ntable.show();
+            }
+            in.close();
+            System.out.println("Starting file Write");
+            Iterator it = ntable.keys();
+            while(it.hasNext()){
+                String key = (String) it.next();
+                byte[] output = ("\nK: [ " + key + " ] V: " + ntable.getValue(key).toString() + " ").getBytes();
+                out.write(output);
+            }
+            //ntable.show();
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -91,8 +104,8 @@ public class Assign4 {
         try {
             InputStream in = new FileInputStream(input_file);
             OutputStream out = new FileOutputStream(output_file);
-            try{
-                new Assign4(in,out, in_num);
+            try {
+                new Assign4(in, out, in_num);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -101,7 +114,5 @@ public class Assign4 {
             System.out.println("FILE ERROR: " + e + "\n---end error---\n");
         }
 
-
-        
     }
 }

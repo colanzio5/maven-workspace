@@ -59,7 +59,7 @@ public class Assign4 {
         /** BEGIN WRITE FILE */
         Iterator<String> keys = ntable.keys();
         Iterator<Integer> values = ntable.values();
-        
+
         while (keys.hasNext() && values.hasNext()) {
             String k = keys.next();
             Integer v = values.next();
@@ -95,7 +95,7 @@ public class Assign4 {
 
         String input_path = args[0];
         String output_path = args[1];
-        int in_num = Integer.parseInt(args[2]);
+        int in_num = 5;
 
         File input_file = new File(input_path);
         File output_file = new File(output_path);

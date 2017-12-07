@@ -1,5 +1,6 @@
 package edu.sdsu.cs.datastructures;
 import java.util.*;
+import edu.sdsu.cs.datastructures.BinarySearchTree;
 
 /**
 * Assignment 4: HashMap and BinarySearchTree
@@ -10,17 +11,17 @@ import java.util.*;
 public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V> {
 
     private int initial_capacity = 12;
-    private BST<K, V>[] storage;
-    private BST<K, V>[] tmp;
+    private BinarySearchTree<K, V>[] storage;
+    private BinarySearchTree<K, V>[] tmp;
     private int size;
 
     public HashTable() {
-        storage = new BST[getPrime(initial_capacity + 2)];
+        storage = new BinarySearchTree[getPrime(initial_capacity + 2)];
         size = 0;
     }
 
     public HashTable(int size) {
-        storage = new BST[getPrime(size + 2)];
+        storage = new BinarySearchTree[getPrime(size + 2)];
         size = 0;
     }
 
@@ -60,9 +61,9 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
 
         V ret = null;
         int pos = hashIndex(key);
-        BST<K, V> root = null;
+        BinarySearchTree<K, V> root = null;
         if (storage[pos] == null) {
-            root = new BST<>();
+            root = new BinarySearchTree<>();
             root.add(key, value);
             storage[pos] = root;
             size++;
@@ -88,7 +89,7 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
             decreaseStorageSize();
         int pos = hashIndex(key);
         try {
-            BST<K, V> tree = storage[pos];
+            BinarySearchTree<K, V> tree = storage[pos];
             if (tree.contains(key)) {
                 tree.delete(key);
                 return true;
@@ -150,7 +151,7 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
     */
     @Override
     public void clear() {
-        for (BST<K, V> tree : storage)
+        for (BinarySearchTree<K, V> tree : storage)
             tree.clear();
     }
 
@@ -208,16 +209,16 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
     }
 
     public void increaseStorageSize() {
-        Stack<BST> trees = new Stack<BST>();
+        Stack<BinarySearchTree> trees = new Stack<BinarySearchTree>();
         for(int i = 0; i < storage.length; i++){
             try {
                 trees.push(storage[i]);
             } catch (Exception e) { }
         }
-        storage = new BST[storage.length * 2];
+        storage = new BinarySearchTree[storage.length * 2];
         while(!trees.isEmpty()){
             try {
-                BST<K,V> current_tree = trees.pop();
+                BinarySearchTree<K,V> current_tree = trees.pop();
                 Iterator<K> keys = current_tree.keys();
                 while(keys.hasNext()){
                     K key = keys.next();
@@ -233,9 +234,9 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
         while (keys.hasNext()) {
             K key = keys.next();
             int pos = hashIndex(key);
-            BST<K, V> root = null;
+            BinarySearchTree<K, V> root = null;
             if (tmp[pos] == null) {
-                root = new BST<>();
+                root = new BinarySearchTree<>();
                 root.add(key, getValue(key));
                 tmp[pos] = root;
             }
@@ -244,37 +245,22 @@ public final class HashTable<K extends Comparable<K>, V> implements MapADT<K, V>
     }
 
     private Stack<K> KeysToStack() {
-        Stack<K> s = new Stack<K>();
+        ArrayList<K> stack = new ArrayList<K>();
         for (int i = 0; i < storage.length; i++) {
             try {
-                BST<K, V> tree = storage[i];
+                BinarySearchTree<K, V> tree = storage[i];
                 Iterator<K> keys = tree.keys();
                 while (keys.hasNext()) {
-                    s.push(keys.next());
+                    stack.add(keys.next());
                 }
-            } catch (Exception e) {
-            }
+            } catch (Exception e) { }
         }
-        sortStack(s);
+        Stack<K> s = new Stack<K>();
+        Collections.sort(stack);
+        for (K key : stack) {
+            s.push(key);
+        }
         return s;
-    }
-
-    //sortStack() and sortedInsert() branched from http://www.geeksforgeeks.org/sort-a-stack-using-recursion/
-    private void sortedInsert(Stack<K> s, K k) {
-        if (s.isEmpty() || (k.compareTo(s.peek()) > 0)) {
-            s.push(k);
-            return;
-        }
-        K temp = s.pop();
-        sortedInsert(s, k);
-        s.push(temp);
-    }
-    private void sortStack(Stack<K> s) {
-        if (!s.isEmpty()) {
-            K x = s.pop();
-            sortStack(s);
-            sortedInsert(s, x);
-        }
     }
 
     private class KeyIterator<K> implements Iterator<K> {

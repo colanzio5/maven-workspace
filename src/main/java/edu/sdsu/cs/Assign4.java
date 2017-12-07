@@ -10,6 +10,7 @@ import java.util.SortedSet;
 import javax.print.DocFlavor.BYTE_ARRAY;
 
 import java.util.*;
+import java.lang.*;
 
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -29,88 +30,88 @@ public class Assign4 {
 
     private static final String TIMING_CAL_FILE = "timing_cal.txt";
 
-    private Assign4(InputStream in, OutputStream out, int gram_size) {
-        System.out.print("\nAssign4 - Private Class Starting\n");
+    private Assign4(String in_path, FileOutputStream out, int n_size) {
+        //System.out.print("\nNgram Search Starting - Gram Size:" + n_size + "\n");
         HashTable<String, Integer> ntable = new HashTable<>();
-        int n_size = gram_size;
         String gram = "";
-        for(int i = 0; i < gram_size; i++){
-            gram.concat(" ");
-        }
+
+        /** BEGIN READING FILE */
+        int c;
         try {
-            System.out.println("Starting File Read");
-            long startTime = System.nanoTime();
-            int size = in.available();
-            for (int i = n_size - 1; i < size + gram_size - 1; i++) {
-                char c = (char) in.read();
-                if (gram.length() >= gram_size) 
-                    gram = gram.substring(1) + c;
-                else 
-                    gram = gram + c;
-                if( gram.contains("\n") || gram.contains("\r") || gram.contains(" ") || gram.length() < gram_size) {
-                    //System.out.println("\nInvalid Gram: " + gram);
-                } else {
-                    //System.out.println("\nValid Gram: " + gram);
-                    if (!ntable.contains(gram))
-                        ntable.add(gram, (Integer) 1);
-                    else
-                        ntable.add(gram, ntable.getValue(gram) + 1);
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(in_path)));
+            while ((c = in.read()) != -1) {
+                char character = (char) c;
+                if (n_size == 1)
+                    gram = Character.toString(character);
+                else {
+                    gram = gram + character;
+                    if (gram.length() > n_size)
+                        gram = gram.substring(1);
                 }
+                processGram((String) gram, ntable, n_size);
             }
             in.close();
-            long endTime = System.nanoTime();
-            
-            System.out.println("TIMING: " + (endTime - startTime)/1000);
-            System.out.println("End File Read");
-
-            System.out.println("Starting File Write");
-            //ntable.printHashTable();
-            Iterator<String> it = ntable.keys();
-            while(it.hasNext()){
-                String k = it.next();
-                Integer i = ntable.getValue(k);
-                try {
-                    System.out.println(" { K: " + k + " V: " + i + " } ");
-                    byte[] output = ("\nK: [ " + k + " ] V: " + i + " ").getBytes();
-                    out.write(output);
-                } catch (Exception e) {
-                    //TODO: handle exception
-                }
-            }
-            
-            System.out.println("End File Write");
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("read error" + e);
         }
-        System.out.print("\nAssign4 - Private Class Ended\n");
+        /** END READING FILE */
+
+        /** BEGIN WRITE FILE */
+        Iterator<String> keys = ntable.keys();
+        Iterator<Integer> values = ntable.values();
+        
+        while (keys.hasNext() && values.hasNext()) {
+            String k = keys.next();
+            Integer v = values.next();
+            String str = "K: " + k + " V: " + v + "\n";
+            byte[] strToBytes = str.getBytes();
+            try {
+                out.write(strToBytes);
+            } catch (Exception e) {
+                System.out.println("write error");
+            }
+        }
+        /** END READING FILE */
     }
 
-    /**
-     * Application entry point which simply starts the security manager and
-     * then creates an instance of the host class.
-     *
-     * @param args No runtime args
-     */
+    private void processGram(String gram, HashTable<String, Integer> ntable, int n_size) {
+        if (gram.contains(" ") || gram.contains("\n") || gram.contains("\r") || (gram.length() != n_size))
+            return;
+
+        if(ntable.contains(gram)) {
+            int new_value = ntable.getValue(gram);
+            ntable.add(gram, new_value + 1);
+        } else
+           ntable.add(gram, 1);
+    }
+
+    /*
+    * Application entry point which simply starts the security manager and
+    * then creates an instance of the host class.
+    *
+    * @param args No runtime args
+    */
     public static void main(String[] args) {
 
         String input_path = args[0];
         String output_path = args[1];
         int in_num = Integer.parseInt(args[2]);
+
         File input_file = new File(input_path);
         File output_file = new File(output_path);
-        System.out.println("\nIN PATH: " + input_path + "\nOUT PATH: " + output_path + "\n");
 
         try {
-            InputStream in = new FileInputStream(input_file);
-            OutputStream out = new FileOutputStream(output_file);
+            FileOutputStream output_stream = new FileOutputStream(output_file);
             try {
-                new Assign4(in, out, in_num);
-
+                for (int i = in_num; i > 0; i--) {
+                    new Assign4(input_path, output_stream, i);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            output_stream.close();
         } catch (Exception e) {
-            System.out.println("FILE ERROR: " + e + "\n---end error---\n");
+            System.out.println("\nFILE ERROR: " + e + "\n---end error---\n");
         }
 
     }

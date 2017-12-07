@@ -23,7 +23,7 @@ import java.io.*;
  * <a href="https://edoras.sdsu.edu/~healey/cs310>website</a> define the
  * requirements for this project.</p>
  *
- * @author STUDENT NAME HERE, csscXXXX
+ * @author Colin Casazza, cssc0236
  */
 public class Assign4 {
 
@@ -34,56 +34,55 @@ public class Assign4 {
         HashTable<String, Integer> ntable = new HashTable<>();
         int n_size = gram_size;
         String gram = "";
-
+        for(int i = 0; i < gram_size; i++){
+            gram.concat(" ");
+        }
         try {
+            System.out.println("Starting File Read");
+            long startTime = System.nanoTime();
             int size = in.available();
-            System.out.print("SIZE: " + size + "\n");
-            for (int i = n_size - 1; i < size; i++) {
+            for (int i = n_size - 1; i < size + gram_size - 1; i++) {
                 char c = (char) in.read();
-                if (gram.length() >= gram_size) {
+                if (gram.length() >= gram_size) 
                     gram = gram.substring(1) + c;
-                } else {
+                else 
                     gram = gram + c;
-                }
-                //System.out.println("GRAM: " + gram + "\n");
-                if( gram.matches("^.*[^a-zA-Z0-9].*$") || gram.contains("\n") || gram.contains("\r")) {
-                    //System.out.println("Invalid: " + gram);
+                if( gram.contains("\n") || gram.contains("\r") || gram.contains(" ") || gram.length() < gram_size) {
+                    //System.out.println("\nInvalid Gram: " + gram);
                 } else {
-                    //System.out.println("Valid: " + gram);
-                    if (!ntable.contains(gram)) {
-                        //add key, v = 1
-                        ntable.add(gram, 1);
-                    } else {
+                    //System.out.println("\nValid Gram: " + gram);
+                    if (!ntable.contains(gram))
+                        ntable.add(gram, (Integer) 1);
+                    else
                         ntable.add(gram, ntable.getValue(gram) + 1);
-                    }
                 }
-
             }
             in.close();
-            System.out.println("Starting file Write");
-            Iterator it = ntable.keys();
-            while(it.hasNext()){
-                String key = (String) it.next();
-                byte[] output = ("\nK: [ " + key + " ] V: " + ntable.getValue(key).toString() + " ").getBytes();
-                out.write(output);
-            }
-            //ntable.show();
+            long endTime = System.nanoTime();
+            
+            System.out.println("TIMING: " + (endTime - startTime)/1000);
+            System.out.println("End File Read");
 
+            System.out.println("Starting File Write");
+            //ntable.printHashTable();
+            Iterator<String> it = ntable.keys();
+            while(it.hasNext()){
+                String k = it.next();
+                Integer i = ntable.getValue(k);
+                try {
+                    System.out.println(" { K: " + k + " V: " + i + " } ");
+                    byte[] output = ("\nK: [ " + k + " ] V: " + i + " ").getBytes();
+                    out.write(output);
+                } catch (Exception e) {
+                    //TODO: handle exception
+                }
+            }
+            
+            System.out.println("End File Write");
         } catch (Exception e) {
             System.out.println(e);
         }
-
         System.out.print("\nAssign4 - Private Class Ended\n");
-    }
-
-    private static void writeFile(List<String> data, String filename) {
-        try {
-            Files.write(Paths.get(filename), data, Charset.defaultCharset());
-        } catch (SecurityException se) {
-            System.err.println("Security Exception : " + se.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
